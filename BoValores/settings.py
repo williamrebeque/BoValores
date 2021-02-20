@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # MyApp gerenciamento
     'gerenciamento.apps.GerenciamentoConfig',
+    # app for formating numbers
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +122,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Ao efetuar o login, redirecionar para:
+LOGIN_REDIRECT_URL = '/bovalores/home/'
+LOGIN_URL = '/bovalores/login/'
+LOGOUT_REDIRECT_URL = '/bovalores/login/'
