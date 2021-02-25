@@ -9,9 +9,9 @@ class Ativo(models.Model):
 	"""Model for Ativo"""
 	
 	usuario = models.ForeignKey(User, on_delete=models.RESTRICT, null=False)
-	cod_b3 = models.CharField(max_length=5)
-	lim_sup = models.FloatField()
-	lim_inf = models.FloatField()
+	cod_b3 = models.CharField(max_length=5, verbose_name='Código B3')
+	lim_sup = models.FloatField(verbose_name='Limite Superior')
+	lim_inf = models.FloatField(verbose_name='Limite Inferior')
 
 	def __str__(self):
 		""" Representação em string do ativo """
@@ -19,7 +19,7 @@ class Ativo(models.Model):
 
 	def get_absolute_url(self):
 		""" Url para acessar o ativo diretamente """
-		return reverse('ativo', args=[str(self.id)])
+		return reverse('ativo-update', args=[str(self.id)])
 
 
 class AtivoHistorico(models.Model):

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'gerenciamento.apps.GerenciamentoConfig',
     # app for formating numbers
     'django.contrib.humanize',
+    # app for using bootstrap in django forms
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,6 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/bovalores/home/'
 LOGIN_URL = '/bovalores/login/'
 LOGOUT_REDIRECT_URL = '/bovalores/login/'
+
+# 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
