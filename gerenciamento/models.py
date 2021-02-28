@@ -10,12 +10,12 @@ class Ativo(models.Model):
 	
 	usuario = models.ForeignKey(User, on_delete=models.RESTRICT, null=False)
 	cod_b3 = models.CharField(max_length=5, verbose_name='Código B3')
-	lim_sup = models.FloatField(verbose_name='Limite Superior')
-	lim_inf = models.FloatField(verbose_name='Limite Inferior')
+	lim_sup = models.FloatField(verbose_name='Vender em')
+	lim_inf = models.FloatField(verbose_name='Comprar em')
 
 	def __str__(self):
 		""" Representação em string do ativo """
-		return self.cod_b3 + " (" + str(self.usuario) + ")"
+		return self.cod_b3 
 
 	def get_absolute_url(self):
 		""" Url para acessar o ativo diretamente """

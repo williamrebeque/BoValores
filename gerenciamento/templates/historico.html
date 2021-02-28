@@ -1,0 +1,106 @@
+{% extends "cima-padrao.html" %}
+{% load humanize %}
+{% load l10n %}
+{% block content %}
+<div class="jumbotron text-center">
+	<div class="container">
+		<h1 class="jumbotron-heading">Histórico do Ativo - {{ativo}}</h1>
+		<p class="lead text-muted">Aqui encontra-se o histórico de preços dos ativos no qual você esta monitorando no momento.</p>
+		<p>
+			<a href="{% url 'home' %}" class="btn btn-secondary my-2">Voltar</a>
+			<!-- <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
+		</p>
+	</div>
+</div>
+
+<div class="album py-5 bg-light">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<nav>
+					<div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+						<a class="nav-item nav-link active" id="nav-grafico-tab" data-toggle="tab" href="#nav-grafico" role="tab" aria-controls="nav-grafico" aria-selected="true">
+							Gráfico
+						</a>
+						<a class="nav-item nav-link" id="nav-lista-tab" data-toggle="tab" href="#nav-lista" role="tab" aria-controls="nav-lista" aria-selected="false">
+							Lista
+						</a>
+					</div>
+				</nav>
+				<div class="tab-content pt-4" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="nav-grafico" role="tabpanel" aria-labelledby="nav-grafico-tab">
+						<canvas id="myChart"></canvas>
+					</div>
+					<div class="tab-pane fade" id="nav-lista" role="tabpanel" aria-labelledby="nav-lista-tab">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Dia</th>
+									<th>Hora</th>
+									<th>Valor</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for hist in historico %}
+									<tr>
+										<td>{{hist.data|date:"d/m/Y"}}</td>
+										<td>{{hist.data|date:"H:i:s"}}</td>
+										<td>R$ {{hist.valor|floatformat:2|intcomma}}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+	var ctx = document.getElementById('myChart').getContext('2d');
+	var chart = new Chart(ctx, {
+	    // The type of chart we want to create
+	    type: 'line',
+	    // The data for our dataset
+	    data: {
+	        labels: [
+	        {% for hist in historico reversed %}
+	        	'{{hist.data|date:"d/m/Y H:i:s"}}', 
+	        {% endfor %}
+	        ],
+	        datasets: [{
+	            label: '{{ativo}}',
+	            backgroundColor: 'blue',
+	            borderColor: 'blue',
+	            data: [
+	            {% for hist in historico reversed %}
+	            	'{{hist.valor|unlocalize}}', 
+	            {% endfor %}
+	            ],
+	            fill: false,
+	        }]
+	    },
+
+	    // Configuration options go here
+	    options: {
+	    	scales: {
+		    	yAxes: [{
+		    		gridLines: {
+		    			display: true,
+		    			drawBorder: true,
+		    			drawOnChartArea: false
+		    		}
+		    	}],
+		    	xAxes: [{
+		    		gridLines: {
+		    			display: true,
+		    			drawBorder: true,
+		    			drawOnChartArea: false
+		    		}
+		    	}]
+		    }
+	    }
+	});
+</script>
+{% endblock %}

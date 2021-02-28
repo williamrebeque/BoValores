@@ -2,11 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
+from django.http import Http404, HttpResponseRedirect
 
 from gerenciamento.models import Ativo, AtivoHistorico
-from gerenciamento.forms import AtivoAlterarForm
 
 # Create your views here.
 
@@ -20,12 +18,10 @@ def home(request):
 
 	cont = 0
 	for ativo in ativos:
-		ativos[cont].lim_sup = real_br_money_mask(ativo.lim_sup)
-		ativos[cont].lim_inf = real_br_money_mask(ativo.lim_inf)
 
 		ultimo_hist = AtivoHistorico.objects.filter(ativo_id=ativo.id).order_by('-data')[:1]
 		if ultimo_hist:
-			ativos[cont].ultimo_hist = real_br_money_mask(ultimo_hist[0].valor)
+			ativos[cont].ultimo_hist = ultimo_hist[0].valor
 
 		cont = cont + 1
 	
@@ -68,14 +64,15 @@ class AtivoDelete(LoginRequiredMixin, DeleteView):
 			raise Http404
 		return ativo
 
-def real_br_money_mask(my_value):
-	a = '{:,.2f}'.format(float(my_value))
-	b = a.replace(',','v')
-	c = b.replace('.',',')
-	return c.replace('v','.')
+@login_required
+def ativo_historico(request, pk):
 
-def real_us_money_mask(my_value):
-	a = str(my_value)
-	b = a.replace(',', 'v')
-	c = b.replace('.', '')
-	return float(c.replace('v', '.'))
+	ativo = Ativo.objects.filter(pk=pk, usuario_id=request.user)[0]
+	historico = AtivoHistorico.objects.filter(ativo_id=ativo.id).order_by('-data')[:100]
+
+	context = {
+		'ativo': ativo, 
+		'historico': historico
+	}
+
+	return render(request, 'historico.html', context=context)

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     # app for using bootstrap in django forms
     'crispy_forms',
+    # crontab
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -109,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
@@ -130,5 +132,18 @@ LOGIN_REDIRECT_URL = '/bovalores/home/'
 LOGIN_URL = '/bovalores/login/'
 LOGOUT_REDIRECT_URL = '/bovalores/login/'
 
-# 
+# css
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# CRONTAB JOBS
+CRONJOBS = [
+    ('*/30 * * * *', 'gerenciamento.tasks.teste_task', '>> /tmp/scheduled_job.log')
+]
+
+# email config
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'informativo@bovalores.com'

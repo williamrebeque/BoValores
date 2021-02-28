@@ -23,18 +23,19 @@
 							<p class="card-text">
 								Atual: 
 								{% if ativo.ultimo_hist %}
-									R$ {{ ativo.ultimo_hist }}
+									R$ {{ ativo.ultimo_hist|floatformat:2 }}
 								{% else %}
 									-
 								{% endif %}
 								<br>
 								<small>
-								Compra em: R$ {{ ativo.lim_inf }} <br>
-								Venda em: R$ {{ ativo.lim_sup }} </small>
+									Venda em: R$ {{ ativo.lim_sup|floatformat:2 }} <br>
+									Compra em: R$ {{ ativo.lim_inf|floatformat:2 }}
+								</small>
 							</p>
 							<div class="d-flex justify-content-between align-items-center">
 								<div class="btn-group">
-									<a href="#" class="btn btn-sm btn-outline-primary">Histórico</a>
+									<a href="{% url 'ativo-historico' ativo.pk %}" class="btn btn-sm btn-outline-primary">Histórico</a>
 									<a href="{{ ativo.get_absolute_url }}" class="btn btn-sm btn-outline-secondary">Editar</a>
 									<a href="{% url 'ativo-delete' ativo.pk %}" class="btn btn-sm btn-outline-danger">Deletar</a>
 								</div>
