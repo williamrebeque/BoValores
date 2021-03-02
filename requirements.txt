@@ -1,0 +1,14 @@
+asgiref==3.3.1
+certifi==2020.12.5
+chardet==4.0.0
+Django==3.1.5
+django-compat==1.0.15
+django-crispy-forms==1.11.1
+django-crontab==0.7.1
+idna==2.10
+pkg-resources==0.0.0
+pytz==2020.5
+requests==2.25.1
+six==1.15.0
+sqlparse==0.4.1
+urllib3==1.26.3
