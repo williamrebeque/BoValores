@@ -136,8 +136,11 @@ LOGOUT_REDIRECT_URL = '/bovalores/login/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # CRONTAB JOBS
+# parametro 1 - periodo de execucao
+# parametro 2 - funcao a ser executado
+# parametro 3 - arquivo de log
 CRONJOBS = [
-    ('*/30 * * * *', 'gerenciamento.tasks.teste_task', '>> /tmp/scheduled_job.log')
+    ('*/30 * * * *', 'gerenciamento.tasks.busca_ativos', '>> /tmp/scheduled_job.log')
 ]
 
 # email config

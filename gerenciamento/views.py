@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import Http404, HttpResponseRedirect
 
 from gerenciamento.models import Ativo, AtivoHistorico
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -76,3 +77,9 @@ def ativo_historico(request, pk):
 	}
 
 	return render(request, 'historico.html', context=context)
+
+
+class UsuarioUpdate(LoginRequiredMixin, UpdateView):
+	model = User
+	fields = ['email']
+	success_url = '/bovalores/home/'

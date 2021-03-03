@@ -1,0 +1,35 @@
+{% extends "cima-padrao.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="jumbotron text-center">
+	<div class="container">
+		<h1 class="jumbotron-heading">Email</h1>
+		<p class="lead text-muted">Aqui você poderá alterar o email no qual sera feito o disparo de alertas de compra e venda.</p>
+		<p>
+			<!-- <a href="#" class="btn btn-primary my-2">Adicionar ativos</a> -->
+			<a href="{% url 'home' %}" class="btn btn-secondary my-2">Voltar</a>
+		</p>
+	</div>
+</div>
+
+<div class="album py-5 bg-light">
+	<div class="container">
+		<form action="" method="post" class="uniForm">
+			{% csrf_token %}
+			<div class="row">
+				
+				<div class="col-md-12">
+					{{form|crispy}}
+				</div>
+
+				<div class="col-md-12">
+					<button class="btn btn-primary">Salvar</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+
+{% endblock %}

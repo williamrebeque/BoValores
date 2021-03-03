@@ -53,6 +53,8 @@ DEFAULT_FROM_EMAIL = 'informativo@bovalores.com'
 
 ## Login
 
+Foi criado um usuário padrão no qual já existem alguns ativos cadastrados e com históricos.
+
 Para logar no sistema utilize as seguintes informações:
 ```
 Login: inoa

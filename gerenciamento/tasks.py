@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 
 # py3 -m smtpd -n -c DebuggingServer localhost:1025
 
-def teste_task():
+def busca_ativos():
 	print("\n\nLOG - " + str(datetime.datetime.now()) )
 	ativos = Ativo.objects.all()
 	for ativo in ativos:
@@ -21,7 +21,7 @@ def teste_task():
 			hist.data = datetime.datetime.now()
 			hist.valor = valor
 			hist.save()
-			print("SALVOU")
+			print("atualizou historico", ativo.cod_b3)
 
 			if valor >= ativo.lim_sup:
 				send_mail(
@@ -31,6 +31,7 @@ def teste_task():
 					[usuario.email],
 					fail_silently=False,
 				)
+				print("email venda")
 			elif valor <= ativo.lim_inf:
 				send_mail(
 					'Alerta BoValores - Compra',
@@ -39,6 +40,7 @@ def teste_task():
 					[usuario.email],
 					fail_silently=False,
 				)
+				print("email compra")
 
 		print(" --------- ")
 		print("")
