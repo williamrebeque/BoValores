@@ -6,6 +6,7 @@ from django.http import Http404, HttpResponseRedirect
 
 from gerenciamento.models import Ativo, AtivoHistorico
 from django.contrib.auth.models import User
+from .forms import AtivoForm, UserForm
 
 # Create your views here.
 
@@ -33,20 +34,17 @@ def home(request):
 	return render(request, 'home.html', context=context)
 
 class AtivoCreate(LoginRequiredMixin, CreateView):
-	model = Ativo 
-	fields = ['cod_b3', 'lim_sup', 'lim_inf']
+	model = Ativo
+	form_class = AtivoForm
 	success_url = '/bovalores/home/'
 
 	def form_valid(self, form):
-		self.object = form.save(commit=False)
-		self.object.usuario = self.request.user
-		self.object.save()
-
-		return HttpResponseRedirect(self.get_success_url())
+		form.instance.usuario = self.request.user
+		return super().form_valid(form)
 
 class AtivoUpdate(LoginRequiredMixin, UpdateView):
 	model = Ativo
-	fields = ['cod_b3', 'lim_sup', 'lim_inf']
+	form_class = AtivoForm
 	success_url = '/bovalores/home/'
 
 	def get_object(self, *args, **kwargs):
@@ -67,7 +65,6 @@ class AtivoDelete(LoginRequiredMixin, DeleteView):
 
 @login_required
 def ativo_historico(request, pk):
-
 	ativo = Ativo.objects.filter(pk=pk, usuario_id=request.user)[0]
 	historico = AtivoHistorico.objects.filter(ativo_id=ativo.id).order_by('-data')[:100]
 
@@ -81,5 +78,11 @@ def ativo_historico(request, pk):
 
 class UsuarioUpdate(LoginRequiredMixin, UpdateView):
 	model = User
-	fields = ['email']
+	form_class = UserForm
 	success_url = '/bovalores/home/'
+
+	def get_object(self, *args, **kwargs):
+		usuario = super(UsuarioUpdate, self).get_object(*args, **kwargs)
+		if not usuario == self.request.user:
+			raise Http404
+		return usuario
