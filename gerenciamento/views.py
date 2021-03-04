@@ -6,7 +6,7 @@ from django.http import Http404, HttpResponseRedirect
 
 from gerenciamento.models import Ativo, AtivoHistorico
 from django.contrib.auth.models import User
-from .forms import AtivoForm, UserForm
+from .forms import AtivoCreateForm, AtivoUpdateForm, UserForm
 
 # Create your views here.
 
@@ -35,7 +35,7 @@ def home(request):
 
 class AtivoCreate(LoginRequiredMixin, CreateView):
 	model = Ativo
-	form_class = AtivoForm
+	form_class = AtivoCreateForm
 	success_url = '/bovalores/home/'
 
 	def form_valid(self, form):
@@ -44,7 +44,7 @@ class AtivoCreate(LoginRequiredMixin, CreateView):
 
 class AtivoUpdate(LoginRequiredMixin, UpdateView):
 	model = Ativo
-	form_class = AtivoForm
+	form_class = AtivoUpdateForm
 	success_url = '/bovalores/home/'
 
 	def get_object(self, *args, **kwargs):

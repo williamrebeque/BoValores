@@ -4,8 +4,13 @@
 {% block content %}
 <div class="jumbotron text-center">
 	<div class="container">
-		<h1 class="jumbotron-heading">Gerenciar Ativos</h1>
-		<p class="lead text-muted">Aqui você poderá cadastrar/alterar os parâmetros de monitoramento do ativo.</p>
+		{% if ativo %}
+			<h1 class="jumbotron-heading">Alterar Ativo - {{ ativo }}</h1>
+			<p class="lead text-muted">Aqui você poderá alterar os parâmetros de monitoramento do ativo {{ ativo }}.</p>
+		{% else %}
+			<h1 class="jumbotron-heading">Cadastrar Ativo</h1>
+			<p class="lead text-muted">Aqui você poderá cadastrar os parâmetros para monitoração de um ativo.</p>
+		{% endif %}
 		<p>
 			<!-- <a href="#" class="btn btn-primary my-2">Adicionar ativos</a> -->
 			<a href="{% url 'home' %}" class="btn btn-secondary my-2">Voltar</a>
@@ -17,8 +22,8 @@
 	<div class="container">
 		<form action="" method="post" class="uniForm">
 			{% csrf_token %}
+
 			<div class="row">
-				
 				<div class="col-md-12">
 					{{form|crispy}}
 				</div>
@@ -27,6 +32,7 @@
 					<button class="btn btn-primary">Salvar</button>
 				</div>
 			</div>
+		
 		</form>
 
 	</div>
